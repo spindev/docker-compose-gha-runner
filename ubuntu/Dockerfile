@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-ARG RUNNER_VERSION="2.317.0"
+ARG RUNNER_VERSION="2.321.0"
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Update and upgrade the system
@@ -13,6 +13,7 @@ RUN useradd -m docker
 RUN apt install -y --no-install-recommends \
     curl build-essential libssl-dev libffi-dev python3 python3-venv python3-dev python3-pip jq
 RUN apt-get -yqq install ssh
+
 # Set up the actions runner
 RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
     && curl -o actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz -L https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-x64-${RUNNER_VERSION}.tar.gz \
@@ -20,6 +21,10 @@ RUN cd /home/docker && mkdir actions-runner && cd actions-runner \
 
 # Change ownership to docker user and install dependencies
 RUN chown -R docker /home/docker && /home/docker/actions-runner/bin/installdependencies.sh
+
+# Create a data directory and change ownership
+RUN mkdir /home/docker/actions-runner/data
+RUN chown -R docker /home/docker/actions-runner/data
 
 # Copy the start script and make it executable
 COPY start.sh /start.sh

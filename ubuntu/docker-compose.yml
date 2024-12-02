@@ -1,0 +1,28 @@
+services:
+  runner:
+    build: .
+    hostname: docker-composite-runner-1
+    volumes:
+      - runner-data:/home/docker/actions-runner/data
+      - type: bind
+        source: .env
+        target: /home/docker/actions-runner/.env
+        read_only: true
+    restart: always
+    environment:
+      - ORG=<ORG>
+      - REG_TOKEN=<REG_TOKEN>
+      - RUNNERGROUP=<RUNNERGROUP>
+      - LABELS=docker,linux,x64,ubuntu
+
+  runner-2:
+    hostname: docker-composite-runner-2
+    extends: runner
+
+  runner-3:
+    hostname: docker-composite-runner-3
+    extends: runner
+
+volumes:
+  runner-data:
+    external: true
