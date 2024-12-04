@@ -1,0 +1,15 @@
+name: Ubuntu Test
+
+on:
+  push:
+    branches:
+      - features/workflows
+  workflow_dispatch:
+
+jobs:
+  ubunut-test:
+    runs-on: [self-hosted, ubuntu, linux]
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Hello world!"
+      - uses: xpirit-training/demo-actions-docker@v3
