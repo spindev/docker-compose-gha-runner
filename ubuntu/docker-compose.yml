@@ -10,6 +10,7 @@ services:
         read_only: true
     restart: always
     environment:
+      - GITHUB_URL=https://github.com
       - ORG=<ORG>
       - REG_TOKEN=<REG_TOKEN>
       - RUNNERGROUP=<RUNNERGROUP>

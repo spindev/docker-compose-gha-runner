@@ -1,5 +1,6 @@
 #!/bin/bash
 
+GITHUB_URL=$GITHUB_URL
 ORG=$ORG
 REG_TOKEN=$REG_TOKEN
 LABELS=$LABELS
@@ -22,7 +23,7 @@ else
     mkdir -p "$DATA_DIR"
 
     echo "Runner does not exist, configuring..."
-    ./config.sh --url https://github.com/${ORG} --token ${REG_TOKEN} --name ${HOSTNAME} --runnergroup $RUNNERGROUP --labels $LABELS
+    ./config.sh --url ${GITHUB_URL}/${ORG} --token ${REG_TOKEN} --name ${HOSTNAME} --runnergroup $RUNNERGROUP --labels $LABELS
 
     echo "Backing up the configuration files..."
     cp /actions-runner/.credentials /actions-runner/.credentials_rsaparams /actions-runner/.runner "$DATA_DIR"
