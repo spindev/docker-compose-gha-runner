@@ -25,4 +25,4 @@ else
 fi
 
 echo "Starting the runner..."
-./run.sh & wait $!
+./run.sh --once & wait $!
