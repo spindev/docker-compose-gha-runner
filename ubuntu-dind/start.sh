@@ -6,12 +6,12 @@ REG_TOKEN=$REG_TOKEN
 LABELS=$LABELS
 RUNNERGROUP=$RUNNERGROUP
 
+echo "Starting docker daemon..."
+dockerd &
+
 cd /actions-runner || exit
 
 export RUNNER_ALLOW_RUNASROOT="1"
-
-# Start docker
-start-docker.sh
 
 DATA_DIR="/actions-runner/data/$HOSTNAME"
 
