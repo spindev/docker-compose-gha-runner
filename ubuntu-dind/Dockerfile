@@ -1,4 +1,4 @@
-FROM cruizba/ubuntu-dind:focal-latest
+FROM cruizba/ubuntu-dind:noble-latest
 
 ARG RUNNER_VERSION="2.321.0"
 ARG DEBIAN_FRONTEND=noninteractive
