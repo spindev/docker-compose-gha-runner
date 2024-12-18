@@ -1,16 +1,41 @@
 #!/bin/bash
 
-GITHUB_URL=$GITHUB_URL
-ORG=$ORG
-REG_TOKEN=$REG_TOKEN
-LABELS=$LABELS
-RUNNERGROUP=$RUNNERGROUP
+DOTENV_FILE=/actions-runner/.env
 
-echo "Starting docker daemon..."
+echo "Loading environment variables from ${DOTENV_FILE} file..."
+if [ -f ${DOTENV_FILE} ]; then
+    while IFS= read -r line; do
+        # Skip comments and empty lines
+        if [[ ! $line =~ ^# ]] && [[ -n $line ]]; then
+            eval export "$line"
+        fi
+    done < ${DOTENV_FILE}
+else
+    echo "${DOTENV_FILE} file not found!"
+    exit 1
+fi
+
+if [ -n "$HTTP_PROXY" ] || [ -n "$HTTPS_PROXY" ] || [ -n "$NO_PROXY" ]; then
+    echo "Configuring Docker daemon with proxy settings..."
+    mkdir -p /etc/docker
+    cat <<EOF > /etc/docker/daemon.json
+{
+  "proxies": {
+    "http-proxy": "$HTTP_PROXY",
+    "https-proxy": "$HTTPS_PROXY",
+    "no-proxy": "$NO_PROXY"
+  }
+}
+EOF
+fi
+
+echo "Starting Docker daemon..."
 dockerd &
+DAEMON_PID=$!
 
 cd /actions-runner || exit
 
+echo "Allowing runner to run as root..."
 export RUNNER_ALLOW_RUNASROOT="1"
 
 DATA_DIR="/actions-runner/data/$HOSTNAME"
@@ -30,4 +55,7 @@ else
 fi
 
 echo "Starting the runner..."
-./run.sh --once & wait $!
+./run.sh --once
+
+echo "Stopping Docker daemon..."
+kill $DAEMON_PID && wait $DAEMON_PID

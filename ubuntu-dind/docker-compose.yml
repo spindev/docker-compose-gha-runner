@@ -10,12 +10,6 @@ services:
         target: /actions-runner/.env
         read_only: true
     restart: always
-    environment:
-      - GITHUB_URL=https://github.com
-      - ORG=<ORG>
-      - REG_TOKEN=<REG_TOKEN>
-      - RUNNERGROUP=<RUNNERGROUP>
-      - LABELS=docker,linux,x64,ubuntu
 
   runner-2:
     hostname: docker-composite-runner-2
