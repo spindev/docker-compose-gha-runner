@@ -9,32 +9,37 @@ This project uses Docker Compose to manage scaled GitHub self-hosted Runner inst
 
 ## Usage
 
-### Ubuntu
+### Setup
 
-- Make sure you adjust the `ubuntu/.env` file to your needs.
+1. Clone the repository:
 
-- To start the runners in the `ubuntu` directory, adjust the `ubuntu/docker-compose.yml` file to your needs and run the following command:
+```sh
+git clone https://github.com/yourusername/docker-compose-gha-runner.git
+cd docker-compose-gha-runner
+```
 
-  ```sh
-  docker-compose -f ubuntu/docker-compose.yml up -d --build
-  ```
+2. Edit the `.env` file and set the required environment variables:
 
-- To stop the runners in the `ubuntu` directory:
-  ```sh
-  docker-compose -f ubuntu/docker-compose.yml down
-  ```
+```properties
+RUNNER_GITHUB_URL=https://github.com
+RUNNER_ORG=<org>
+RUNNER_LABELS=<labels>
+RUNNER_REG_TOKEN=<REG_TOKEN>
+RUNNER_GROUP=<RUNNERGROUP>
+```
 
-### Ubuntu-Dind
+3. Start the Docker Compose services:
 
-- Make sure you adjust the `ubuntu-dind/.env` file to your needs.
+```sh
+docker-compose up -d
+```
 
-- To start the runners in the `ubuntu-dind` directory, adjust the `ubuntu-dind/docker-compose.yml` file to your needs and run the following command:
+4. Verify that the runners are registered and active in your GitHub organization.
 
-  ```sh
-  docker-compose -f ubuntu-dind/docker-compose.yml up -d --build
-  ```
+### Stopping the Runners
 
-- To stop the runners in the `ubuntu-dind` directory:
-  ```sh
-  docker-compose -f ubuntu-dind/docker-compose.yml down
-  ```
+To stop the runners, run:
+
+```sh
+docker-compose down
+```

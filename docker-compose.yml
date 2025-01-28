@@ -1,6 +1,6 @@
 services:
   runner:
-    build: .
+    build: ./ubuntu-dind/
     privileged: true
     hostname: docker-composite-runner-1
     volumes:
