@@ -43,3 +43,7 @@ To stop the runners, run:
 ```sh
 docker-compose down
 ```
+
+## Author
+
+Till Spindler - [spindev.net](https://spindev.net)
